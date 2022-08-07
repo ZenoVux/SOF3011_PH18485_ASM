@@ -57,11 +57,12 @@ public class RegisterServlet extends HttpServlet {
 //			req.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(req, resp);
 //			return;
 //		}
-//		if (password.length() < 8) {
-//			req.setAttribute("message", "Mật khẩu tối thiểu có 8 ký tự");
-//			req.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(req, resp);
-//			return;
-//		}
+		if (password.length() < 8) {
+			resp.getWriter().println("<script type=\"text/javascript\">");
+			resp.getWriter().println("alert('Mật khẩu tối thiểu có 8 ký tự');");
+			resp.getWriter().println("</script>");
+			return;
+		}
 //		if (password.length() > 16) {
 //			req.setAttribute("message", "Mật khẩu tối đa có 16 ký tự");
 //			req.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(req, resp);

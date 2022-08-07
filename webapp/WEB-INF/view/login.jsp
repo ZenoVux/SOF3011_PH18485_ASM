@@ -19,13 +19,9 @@
 			<div class="mb-2 d-grid gap-2">
 				<button type="submit" class="btn btn-primary">Đăng nhập</button>
 			</div>
-			<div class="text-center">
-				<a href="/PH18485_ASM/register">Quên mật khẩu</a> / <a
+			<div class="mb-4 text-center"><a
 					href="/PH18485_ASM/register">Tạo tài khoản</a>
-			</div>
-			<hr>
-			<div class="mb-4 d-grid gap-4">
-				<a href="/PH18485_ASM/register" class="btn btn-success">Đăng ký</a>
+				 / <a href="/PH18485_ASM/register">Quên mật khẩu</a>
 			</div>
 		</form>
 	</div>

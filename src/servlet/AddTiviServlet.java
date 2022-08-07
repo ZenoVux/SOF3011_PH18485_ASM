@@ -50,6 +50,8 @@ public class AddTiviServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html;charset=UTF-8");
 		HttpSession session = req.getSession();
 		String username = (String) session.getAttribute("username");
 
@@ -65,36 +67,41 @@ public class AddTiviServlet extends HttpServlet {
 		// check null
 		if (strName == null || strPrice == null || strQuantity == null || strScreenSize == null || strOS == null
 				|| strResolution == null || strScreenType == null || strBrand == null) {
-			req.setAttribute("message", "Vui lòng nhập đầy đủ các trường");
-			req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+			resp.getWriter().println("<script type=\"text/javascript\">");
+			resp.getWriter().println("alert('Vui lòng nhập đầy đủ các trường');");
+			resp.getWriter().println("</script>");
 			return;
 		}
 		// cut space char and check empty
 		if (strName.trim().isEmpty() || strPrice.trim().isEmpty() || strQuantity.trim().isEmpty()
 				|| strScreenSize.trim().isEmpty() || strOS.trim().isEmpty() || strResolution.trim().isEmpty()
 				|| strScreenType.trim().isEmpty() || strBrand.trim().isEmpty()) {
-			req.setAttribute("message", "Vui lòng nhập đầy đủ các trường");
-			req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+			resp.getWriter().println("<script type=\"text/javascript\">");
+			resp.getWriter().println("alert('Vui lòng nhập đầy đủ các trường');");
+			resp.getWriter().println("</script>");
 			return;
 		}
 
 		try {
 			double numPrice = Double.parseDouble(strPrice);
 			if (numPrice < 0) {
-				req.setAttribute("message", "Giá phải lớn hơn 0");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Giá phải lớn hơn 0');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			int numQuantity = Integer.parseInt(strQuantity);
 			if (numQuantity < 0) {
-				req.setAttribute("message", "Số lượng phải lớn hơn 0");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Số lượng phải lớn hơn 0');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			short numScreenSize = Short.parseShort(strScreenSize);
 			if (numScreenSize < 0) {
-				req.setAttribute("message", "Kích thước màn hình phải lớn hơn 0");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Kích thước màn hình phải lớn hơn 0');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			
@@ -112,32 +119,36 @@ public class AddTiviServlet extends HttpServlet {
 			// get OS by id
 			OperatingSystem operatingSystem = operatingSystemService.getById(osId);
 			if (operatingSystem == null) {
-				req.setAttribute("message", "Hệ điều hành không hợp lệ");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Hệ điều hành không hợp lệ');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			tivi.setOs(operatingSystem);
 			// get Resolution by id
 			Resolution resolution = resolutionService.getById(resolutionId);
 			if (resolution == null) {
-				req.setAttribute("message", "Độ phân giải không hợp lệ");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Độ phân giải không hợp lệ');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			tivi.setResolution(resolution);
 			// get ScreenType by id
 			ScreenType screenType = screenTypeService.getById(screenTypeId);
 			if (screenType == null) {
-				req.setAttribute("message", "Loại màn hình không hợp lệ");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Loại màn hình không hợp lệ');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			tivi.setScreenType(screenType);
 			// get Brand by id
 			Brand brand = brandService.getById(brandId);
 			if (brand == null) {
-				req.setAttribute("message", "Hãng không hợp lệ");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Hãng không hợp lệ');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 			tivi.setBrand(brand);
@@ -149,17 +160,23 @@ public class AddTiviServlet extends HttpServlet {
 			tivi.setDeleted(false);
 
 			if (!tiviService.createTivi(tivi)) {
-				req.setAttribute("message", "Thêm mới sản phẩm thất bại");
-				req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Thêm mới sản phẩm thất bại');");
+				resp.getWriter().println("</script>");
 				return;
 			}
 		} catch (Exception e) {
-			req.setAttribute("message", "Dữ liệu không hợp lệ");
-			req.getRequestDispatcher("/WEB-INF/view/edit.jsp").forward(req, resp);
+
+//			req.setAttribute("message", "Thêm mới sản phẩm thành công");
+//			req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+			resp.getWriter().println("<script type=\"text/javascript\">");
+			resp.getWriter().println("alert('Dữ liệu không hợp lệ');");
+			resp.getWriter().println("</script>");
 			return;
 		}
 
-		req.setAttribute("message", "Thêm mới sản phẩm thành công");
-		req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
+		resp.getWriter().println("<script type=\"text/javascript\">");
+		resp.getWriter().println("alert('Thêm mới sản phẩm thành công');");
+		resp.getWriter().println("</script>");
 	}
 }

@@ -68,13 +68,13 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<li class="page-item ${currPage == 1 ? 'disabled' : ''}"><a
-				href="?page=1" class="page-link"><i class="fa-solid fa-backward-fast"></i></a></li>
+				href="${nextUrl}1" class="page-link"><i class="fa-solid fa-backward-fast"></i></a></li>
 			<c:forEach begin="${beginPage}" end="${endPage}" var="i">
 				<li class="page-item ${currPage == i ? 'disabled' : ''}"><a
-					href="?page=${i}" class="page-link">${i}</a></li>
+					href="${nextUrl}${i}" class="page-link">${i}</a></li>
 			</c:forEach>
 			<li class="page-item ${currPage == maxPage ? 'disabled' : ''}"><a
-				href="?page=${maxPage}" class="page-link"><i class="fa-solid fa-forward-fast"></i></a></li>
+				href="${nextUrl}${maxPage}" class="page-link"><i class="fa-solid fa-forward-fast"></i></a></li>
 		</ul>
 	</nav>
 </div>

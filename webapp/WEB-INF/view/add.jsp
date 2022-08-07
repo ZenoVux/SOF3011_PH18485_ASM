@@ -6,15 +6,8 @@
 <div class="row justify-content-center">
 	<div class="col-md-5">
 		<h3 class="text-center my-3">Thêm sản phẩm</h3>
-		<c:if test="${message != null}">
-			<div class="alert alert-warning alert-dismissible fade show"
-				role="alert">
-				${message}
-				<button type="button" class="btn-close" data-bs-dismiss="alert"
-					aria-label="Close"></button>
-			</div>
-		</c:if>
-		<form action="/PH18485_ASM/tivi/add" method="POST">
+		<div id="message"></div>
+		<form id="myForm" action="/PH18485_ASM/tivi/add" method="POST">
 			<div class="mb-2">
 				<label class="form-label">Tên:</label> <input class="form-control"
 					name="name" type="text" value="${tivi.name}">
@@ -76,4 +69,19 @@
 		</form>
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#myForm').on('submit', function(e) {
+			e.preventDefault();
+			$.ajax({
+				url : '/PH18485_ASM/tivi/add',
+				type : 'POST',
+				data : $(this).serialize(),
+				success : function(data) {
+					$('#message').html(data);
+				}
+			});
+		});
+	});
+</script>
 <%@include file="includes/footer.jsp"%>

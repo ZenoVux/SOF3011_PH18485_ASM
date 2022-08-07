@@ -46,10 +46,10 @@ public class TiviRepository {
 			hql += " AND tv.deleted = :deleted";
 		}
 		if (quantity != null) {
-			if (quantity.equals("DESC")) {
+			if (quantity.equalsIgnoreCase("DESC")) {
 				hql += " ORDER BY tv.quantity DESC";
 			}
-			if (quantity.equals("ASC")) {
+			if (quantity.equalsIgnoreCase("ASC")) {
 				hql += " ORDER BY tv.quantity ASC";
 			}
 		}

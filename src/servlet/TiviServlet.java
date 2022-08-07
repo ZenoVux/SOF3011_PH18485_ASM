@@ -22,21 +22,51 @@ public class TiviServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("params", req.getParameterMap());
 		String id = req.getParameter("id");
 		if (id == null) {
 			String page = req.getParameter("page");
+			String name = req.getParameter("name");
+			String priceMin = req.getParameter("price-min");
+			String priceMax = req.getParameter("price-max");
+			String quantity = req.getParameter("quantity");
+			String deleted = req.getParameter("deleted");
 			int currPage = 1;
+			BigDecimal numPriceMin = null;
+			BigDecimal numPriceMax = null;
+			Boolean isDeleted = null;
+			if (name == null) {
+				name = "";
+			}
+			if (priceMin != null && priceMax != null) {
+				try {
+					numPriceMin = BigDecimal.valueOf(Double.parseDouble(priceMin));
+					numPriceMax = BigDecimal.valueOf(Double.parseDouble(priceMax));
+				} catch (Exception e) {
+				}
+			}
+			if (quantity != null) {
+				if (!quantity.equalsIgnoreCase("DESC") && !quantity.equalsIgnoreCase("ASC")) {
+					quantity = null;
+				}
+			}
+			if (deleted != null) {
+				if (!deleted.equals("true") && !deleted.equals("false")) {
+					isDeleted = null;
+				} else if (deleted.equals("true")) {
+					isDeleted = true;
+				} else if (deleted.equals("false")) {
+					isDeleted = false;
+				}
+			}
 			if (page != null) {
 				try {
 					currPage = Integer.parseInt(page);
 				} catch (Exception e) {
-					System.out.println("page");
-					resp.sendRedirect("/PH18485_ASM/tivi");
-					return;
 				}
 			}
 
-			int count = tiviService.getCountByFilter("", null, null, null);
+			int count = tiviService.getCountByFilter(name, numPriceMin, numPriceMax, isDeleted);
 			int maxPage = count % 5 == 0 ? count / 5 : (count / 5) + 1;
 			if (currPage <= 0 || currPage > maxPage) {
 				resp.sendRedirect("/PH18485_ASM/tivi");
@@ -50,7 +80,7 @@ public class TiviServlet extends HttpServlet {
 			if (endPage > maxPage) {
 				endPage = maxPage;
 			}
-			List<Tivi> listTivi = tiviService.getByFilter("", null, null, null, null,
+			List<Tivi> listTivi = tiviService.getByFilter(name, quantity, numPriceMin, numPriceMax, isDeleted,
 					5 * (currPage - 1), 5);
 			
 			req.setAttribute("listTivi", listTivi);
