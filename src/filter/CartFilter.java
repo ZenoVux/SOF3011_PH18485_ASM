@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import model.AccountRole;
 
-@WebFilter("/cart")
+@WebFilter("/cart/*")
 public class CartFilter implements Filter {
 
 	@Override
@@ -29,11 +29,15 @@ public class CartFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
+		resp.setContentType("text/html;charset=UTF-8");
 
-		if (session.getAttribute("username") == null) {
+		if (session.getAttribute("username") != null) {
 			chain.doFilter(request, response);
 		} else {
-			resp.sendRedirect("/PH18485_ASM/login");
+			resp.getWriter().println("<script type=\"text/javascript\">");
+			resp.getWriter().println("alert('Vui lòng đăng nhập');");
+			resp.getWriter().println("location.replace('/PH18485_ASM/login');");
+			resp.getWriter().println("</script>");
 		}
 	}
 

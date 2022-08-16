@@ -1,6 +1,10 @@
 package service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import model.Cart;
+import model.CartStatus;
 import repository.CartRepository;
 
 public class CartService {
@@ -32,5 +36,13 @@ public class CartService {
 
 	public Cart getLastByAccountId(Integer accountId) {
 		return cartRepo.getLastByAccountId(accountId);
+	}
+	
+	public BigDecimal getTotalMoney(Integer cartId) {
+		return cartRepo.getTotalMoney(cartId);
+	}
+
+	public List<Cart> getAllByAccountId(Integer accountId) {
+		return cartRepo.getAllByAccountId(accountId);
 	}
 }

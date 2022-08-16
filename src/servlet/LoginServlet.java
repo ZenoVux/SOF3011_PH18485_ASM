@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("role", account.getRole());
 
 			resp.getWriter().println("<script type=\"text/javascript\">");
-			resp.getWriter().println("location.replace('/PH18485_ASM/tivi');");
+			resp.getWriter().println("location.replace('/PH18485_ASM/index');");
 			resp.getWriter().println("</script>");
 		}
 	}

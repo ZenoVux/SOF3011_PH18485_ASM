@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,8 +48,12 @@ public class DeleteTiviFromCartServlet extends HttpServlet {
 		if (cartDetail != null) {
 			cartDetail.setDeleted(true);
 			if (cartDetailService.update(cartDetail)) {
+				BigDecimal totalMoney = cartService.getTotalMoney(cart.getId());
 				resp.getWriter().println("<script type=\"text/javascript\">");
 				resp.getWriter().println("$('#tivi" + tivi.getId() + "').remove();");
+				resp.getWriter().println(
+						"$('#totalMoney').html(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format("
+								+ totalMoney + "));");
 				resp.getWriter().println("</script>");
 			}
 		} else {

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,11 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.Account;
 import model.Cart;
 import model.CartDetail;
 import model.Tivi;
-import service.AccountService;
 import service.CartDetailService;
 import service.CartService;
 import service.TiviService;
@@ -59,10 +58,14 @@ public class EditTiviFromCartServlet extends HttpServlet {
 			}
 			cartDetail.setQuantity(quantity);
 			if (cartDetailService.update(cartDetail)) {
+				BigDecimal totalMoney = cartService.getTotalMoney(cart.getId());
 				resp.getWriter().println("<script type=\"text/javascript\">");
 				resp.getWriter().println("$('#price" + tivi.getId()
 						+ "').html(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format("
 						+ (quantity * tivi.getPrice().intValue()) + "));");
+				resp.getWriter().println(
+						"$('#totalMoney').html(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format("
+								+ totalMoney + "));");
 				resp.getWriter().println("</script>");
 			}
 		} else {

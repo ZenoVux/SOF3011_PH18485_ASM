@@ -11,14 +11,18 @@ import javax.servlet.http.HttpSession;
 
 import model.Account;
 import model.AccountRole;
+import model.Cart;
+import model.CartStatus;
 import service.AccountService;
 import service.AuthenticationService;
+import service.CartService;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
-	private AuthenticationService authenticationService = new AuthenticationService();
-	private AccountService accountService = new AccountService();
+	private final AuthenticationService authenticationService = new AuthenticationService();
+	private final AccountService accountService = new AccountService();
+	private final CartService cartService = new CartService();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,11 +55,6 @@ public class RegisterServlet extends HttpServlet {
 			resp.getWriter().println("</script>");
 			return;
 		}
-//		if (!role.equals("admin") || !role.equals("user")) {
-//			req.setAttribute("message", "Vai trò không tồn tại");
-//			req.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(req, resp);
-//			return;
-//		}
 		if (password.length() < 8) {
 			resp.getWriter().println("<script type=\"text/javascript\">");
 			resp.getWriter().println("alert('Mật khẩu tối thiểu có 8 ký tự');");
@@ -83,6 +82,13 @@ public class RegisterServlet extends HttpServlet {
 			resp.getWriter().println("alert('Đăng ký thất bại');");
 			resp.getWriter().println("</script>");
 			return;
+		}
+		Cart cart = cartService.getLastByAccountId(account.getId());
+		if (cart == null) {
+			cart = new Cart();
+			cart.setAccount(account);
+			cart.setStatus(CartStatus.WAITING);
+			cartService.create(cart);
 		}
 		resp.getWriter().println("<script type=\"text/javascript\">");
 		resp.getWriter().println("alert('Đăng ký thành công');");

@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -23,14 +24,18 @@ public class Cart {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Account account;
+	@Column(columnDefinition = "NVARCHAR(50)")
+	private String fullname;
 	@Column(length = 15)
 	private String phoneNumber;
 	@Column(columnDefinition = "NVARCHAR(MAX)")
 	private String address;
 	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
 	private List<CartDetail> cartDetails;
+	@Column
+	private BigDecimal totalMoney;
 	@Column(nullable = false)
-	private Boolean completed;
+	private CartStatus status;
 	
 	public Integer getId() {
 		return id;
@@ -48,6 +53,14 @@ public class Cart {
 		this.account = account;
 	}
 	
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -72,12 +85,20 @@ public class Cart {
 		this.cartDetails = cartDetails;
 	}
 
-	public Boolean getCompleted() {
-		return completed;
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
 	}
 
-	public void setCompleted(Boolean completed) {
-		this.completed = completed;
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+
+	public CartStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(CartStatus status) {
+		this.status = status;
 	}
 	
 }

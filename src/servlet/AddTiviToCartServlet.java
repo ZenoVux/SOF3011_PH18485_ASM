@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Cart;
 import model.CartDetail;
+import model.CartStatus;
 import model.Tivi;
 import service.AccountService;
 import service.CartDetailService;
@@ -47,7 +48,7 @@ public class AddTiviToCartServlet extends HttpServlet {
 		if (cart == null) {
 			cart = new Cart();
 			cart.setAccount(account);
-			cart.setCompleted(false);
+			cart.setStatus(CartStatus.WAITING);
 			if (!cartService.create(cart)) {
 				return;
 			}
@@ -63,7 +64,7 @@ public class AddTiviToCartServlet extends HttpServlet {
 			if (cartDetailService.update(cartDetail)) {
 				resp.getWriter().println("<script type=\"text/javascript\">");
 				resp.getWriter().println(
-						"alert('Thêm sản phẩm vào giỏ hàng thành công " + cartDetail.getQuantity() + "');");
+						"alert('Thêm sản phẩm vào giỏ hàng thành công');");
 				resp.getWriter().println("</script>");
 			}
 			return;

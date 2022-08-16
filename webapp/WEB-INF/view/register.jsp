@@ -30,7 +30,7 @@
 			</div>
 			<hr>
 			<div class="mb-4 d-grid gap-2">
-				<button type="submit" class="btn btn-primary">Đăng ký</button>
+				<button id="btnSubmit" type="submit" class="btn btn-primary">Đăng ký</button>
 			</div>
 		</form>
 	</div>
@@ -39,12 +39,14 @@
 	$(document).ready(function() {
 		$('#myForm').on('submit', function(e) {
 			e.preventDefault();
+			$("#btnSubmit").prop("disabled", false);
 			$.ajax({
 				url : '/PH18485_ASM/register',
 				type : 'POST',
 				data : $(this).serialize(),
 				success : function(data) {
 					$('#message').html(data);
+					$("#btnSubmit").prop("disabled", false);
 				}
 			});
 		});

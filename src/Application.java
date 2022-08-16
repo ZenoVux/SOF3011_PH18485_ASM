@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,8 @@ public class Application {
 //		Cart cart = cartService.getLastByAccountId(1);
 //		System.out.println(cart.getId());
 		
-		cartDetailService.getByCartIdAndTiviId(1, 1);
+//		cartDetailService.getByCartIdAndTiviId(1, 1);
+		System.out.println(cartService.getTotalMoney(1));
 	}
 
 }

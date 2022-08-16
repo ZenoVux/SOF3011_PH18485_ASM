@@ -17,7 +17,7 @@
 					type="password" class="form-control">
 			</div>
 			<div class="mb-2 d-grid gap-2">
-				<button type="submit" class="btn btn-primary">Đăng nhập</button>
+				<button id="btnSubmit" type="submit" class="btn btn-primary">Đăng nhập</button>
 			</div>
 			<div class="mb-4 text-center">
 				Bạn chưa có tài khoản? <a href="/PH18485_ASM/register">Đăng ký</a>
@@ -29,12 +29,14 @@
 	$(document).ready(function() {
 		$('#myForm').on('submit', function(e) {
 			e.preventDefault();
+			$("#btnSubmit").prop("disabled", false);
 			$.ajax({
 				url : '/PH18485_ASM/login',
 				type : 'POST',
 				data : $(this).serialize(),
 				success : function(data) {
 					$('#message').html(data);
+					$("#btnSubmit").prop("disabled", false);
 				}
 			});
 		});
