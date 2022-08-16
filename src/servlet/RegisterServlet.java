@@ -32,7 +32,6 @@ public class RegisterServlet extends HttpServlet {
 		String fullname = req.getParameter("fullname");
 		String password = req.getParameter("password");
 		String confirmPassword = req.getParameter("confirmPassword");
-		HttpSession session = req.getSession();
 		if (username == null || fullname == null || password == null || confirmPassword == null) {
 			resp.getWriter().println("<script type=\"text/javascript\">");
 			resp.getWriter().println("alert('Vui lòng nhập đầy đủ các trường');");

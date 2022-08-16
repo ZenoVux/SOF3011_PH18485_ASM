@@ -7,11 +7,15 @@
 	<div class="col-md-5 my-2">
 		<h3 class="text-center my-3">Cập nhật sản phẩm</h3>
 		<div id="message"></div>
-		<form id="myForm" action="/PH18485_ASM/tivi/edit" method="POST">
+		<form id="myForm" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="${tivi.id}">
 			<div class="mb-2">
 				<label class="form-label">Tên:</label> <input class="form-control"
 					name="name" type="text" value="${tivi.name}">
+			</div>
+			<div class="mb-2">
+				<label class="form-label">Hình ảnh:</label> <input
+					class="form-control" type="file" name="image">
 			</div>
 			<div class="mb-2">
 				<label class="form-label">Mô tả:</label>
@@ -74,7 +78,7 @@
 				</select>
 			</div>
 			<div class="mb-2 d-grid gap-2">
-				<button type="submit" class="btn btn-primary"
+				<button id="btnSubmit" type="submit" class="btn btn-primary"
 					onclick="return confirm('Xác nhận cập nhật?');">Cập nhật</button>
 			</div>
 		</form>
@@ -82,14 +86,29 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#myForm').on('submit', function(e) {
-			e.preventDefault();
+		$("#btnSubmit").click(function(event) {
+			event.preventDefault();
+			var form = $('#myForm')[0];
+			var data = new FormData(form);
+			$("#btnSubmit").prop("disabled", true);
 			$.ajax({
-				url : '/PH18485_ASM/tivi/edit',
-				type : 'POST',
-				data : $(this).serialize(),
+				type : "POST",
+				enctype : 'multipart/form-data',
+				url : "/PH18485_ASM/tivi/edit",
+				data : data,
+				processData : false,
+				contentType : false,
+				cache : false,
+				timeout : 800000,
 				success : function(data) {
 					$('#message').html(data);
+					console.log("SUCCESS : ", data);
+					$("#btnSubmit").prop("disabled", false);
+				},
+				error : function(e) {
+					$('#message').html(data);
+					console.log("ERROR : ", e);
+					$("#btnSubmit").prop("disabled", false);
 				}
 			});
 		});

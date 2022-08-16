@@ -31,6 +31,13 @@ public class DeleteTiviServlet extends HttpServlet {
 			tivi.setDeleted(true);
 			tivi.setLastModifiedUser(accountService.getByUsername(username));
 			tivi.setLastModifiedDate(new Timestamp(System.currentTimeMillis()));
+			if (tivi.getDeleted()) {
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Sản phẩm đã xoá');");
+				resp.getWriter().println("location.replace('/PH18485_ASM/tivi');");
+				resp.getWriter().println("</script>");
+				return;
+			}
 			if (tiviService.updateTivi(tivi)) {
 				resp.getWriter().println("<script type=\"text/javascript\">");
 				resp.getWriter().println("alert('Xóa thành công');");

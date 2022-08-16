@@ -46,6 +46,7 @@ public class LoginServlet extends HttpServlet {
 			resp.getWriter().println("alert('Tài khoản hoặc mật khẩu không chính xác!');");
 			resp.getWriter().println("</script>");
 		} else {
+			session.setAttribute("id", account.getId());
 			session.setAttribute("username", account.getUsername());
 			session.setAttribute("fullname", account.getFullname());
 			session.setAttribute("role", account.getRole());

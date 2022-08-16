@@ -2,15 +2,19 @@ package servlet;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import model.Account;
 import model.Brand;
@@ -25,6 +29,7 @@ import service.ResolutionService;
 import service.ScreenTypeService;
 import service.TiviService;
 
+@MultipartConfig
 @WebServlet("/tivi/edit")
 public class EditTiviServlet extends HttpServlet {
 
@@ -168,6 +173,15 @@ public class EditTiviServlet extends HttpServlet {
 			tivi.setLastModifiedUser(account);
 			tivi.setLastModifiedDate(new Timestamp(System.currentTimeMillis()));
 
+			Part part =	req.getPart("image");
+			String path = req.getServletContext().getRealPath("/images");
+			String fileName = part.getSubmittedFileName();
+			if (!Files.exists(Path.of(path))) {
+				Files.createDirectory(Path.of(path));
+			}
+			part.write(path + "/" + fileName);
+			tivi.setImage(fileName);
+			
 			if (!tiviService.updateTivi(tivi)) {
 				resp.getWriter().println("<script type=\"text/javascript\">");
 				resp.getWriter().println("alert('Cập nhật sản phẩm thất bại');");
@@ -176,6 +190,7 @@ public class EditTiviServlet extends HttpServlet {
 				return;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			resp.getWriter().println("<script type=\"text/javascript\">");
 			resp.getWriter().println("alert('Dữ liệu không hợp lệ');");
 //			resp.getWriter().println("location.replace('/PH18485_ASM/tivi/edit?id=" + id + "');");

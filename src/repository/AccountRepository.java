@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import model.Account;
-import model.AccountRole;
 import utility.HibernateUtil;
 
 public class AccountRepository {
@@ -23,6 +22,15 @@ public class AccountRepository {
 		
 		session.close();
 		return accounts;
+	}
+
+	public Account getById(Integer id) {
+		Account account = null;
+		SessionFactory factory = HibernateUtil.getFACTORY();
+		Session session = factory.openSession();
+		account = session.find(Account.class, id);
+		session.close();
+		return account;
 	}
 
 	public Account getByUsername(String username) {

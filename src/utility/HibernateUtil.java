@@ -12,6 +12,8 @@ import org.hibernate.service.ServiceRegistry;
 import model.Tivi;
 import model.Account;
 import model.Brand;
+import model.Cart;
+import model.CartDetail;
 import model.OperatingSystem;
 import model.Resolution;
 import model.ScreenType;
@@ -45,6 +47,8 @@ public class HibernateUtil {
         conf.addAnnotatedClass(Resolution.class);
         conf.addAnnotatedClass(Account.class);
         conf.addAnnotatedClass(Tivi.class);
+        conf.addAnnotatedClass(Cart.class);
+        conf.addAnnotatedClass(CartDetail.class);
 
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(conf.getProperties()).build();

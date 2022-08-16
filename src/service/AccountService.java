@@ -17,6 +17,10 @@ public class AccountService {
 		}
 	}
 	
+	public Account getById(Integer id) {
+		return accountRepo.getById(id);
+	}
+	
 	public Account getByUsername(String username) {
 		return accountRepo.getByUsername(username);
 	}

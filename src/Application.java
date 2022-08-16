@@ -7,14 +7,20 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import model.Account;
+import model.Cart;
 import model.Tivi;
 import repository.TiviRepository;
+import service.AccountService;
+import service.CartDetailService;
+import service.CartService;
 import service.TiviService;
 import utility.HibernateUtil;
 
 public class Application {
-	
-	private static final TiviService tiviService = new TiviService();;
+
+	private static final AccountService accountService = new AccountService();
+	private static final CartService cartService = new CartService();
+	private static final CartDetailService cartDetailService = new CartDetailService();
 
 	public static void main(String[] args) {
 //		Account account = new Account();
@@ -28,7 +34,7 @@ public class Application {
 //		tivi.setName("Samsung 55");
 //		tivi.setCreateUser(account);
 
-		SessionFactory factory = HibernateUtil.getFACTORY();
+//		SessionFactory factory = HibernateUtil.getFACTORY();
 //		Session session = factory.openSession();
 //		Transaction transaction = session.beginTransaction();
 //		session.save(tivi);
@@ -84,6 +90,16 @@ public class Application {
 		
 //		System.out.println(tiviService.getCountByFilter("", null, 14000000.0, 15000000.0, null));
 
+//		Account account = accountService.getByUsername("admin");
+//		Cart cart = new Cart();
+//		cart.setAccount(account);
+//		cart.setCompleted(false);
+//		cartService.create(cart);
+		
+//		Cart cart = cartService.getLastByAccountId(1);
+//		System.out.println(cart.getId());
+		
+		cartDetailService.getByCartIdAndTiviId(1, 1);
 	}
 
 }

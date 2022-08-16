@@ -23,8 +23,11 @@ public class Tivi {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(columnDefinition = "NVARCHAR(50)", nullable = false)
+	@Column(columnDefinition = "NVARCHAR(100)", nullable = false)
 	private String name;
+	
+	@Column(columnDefinition = "NVARCHAR(100)")
+	private String image;
 	
 	@Column(columnDefinition = "NVARCHAR(MAX)")
 	private String description;
@@ -85,6 +88,14 @@ public class Tivi {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getDescription() {

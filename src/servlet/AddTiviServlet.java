@@ -2,15 +2,19 @@ package servlet;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import model.Account;
 import model.Brand;
@@ -25,6 +29,7 @@ import service.ResolutionService;
 import service.ScreenTypeService;
 import service.TiviService;
 
+@MultipartConfig
 @WebServlet("/tivi/add")
 public class AddTiviServlet extends HttpServlet {
 
@@ -54,7 +59,6 @@ public class AddTiviServlet extends HttpServlet {
 		resp.setContentType("text/html;charset=UTF-8");
 		HttpSession session = req.getSession();
 		String username = (String) session.getAttribute("username");
-
 		String strName = req.getParameter("name");
 		String strDescription = req.getParameter("description");
 		String strPrice = req.getParameter("price");
@@ -64,6 +68,8 @@ public class AddTiviServlet extends HttpServlet {
 		String strResolution = req.getParameter("resolution");
 		String strScreenType = req.getParameter("screenType");
 		String strBrand = req.getParameter("brand");
+		
+		System.out.println(strName);
 		// check null
 		if (strName == null || strPrice == null || strQuantity == null || strScreenSize == null || strOS == null
 				|| strResolution == null || strScreenType == null || strBrand == null) {
@@ -158,6 +164,16 @@ public class AddTiviServlet extends HttpServlet {
 			tivi.setLastModifiedUser(account);
 			tivi.setLastModifiedDate(new Timestamp(System.currentTimeMillis()));
 			tivi.setDeleted(false);
+			
+
+			Part part =	req.getPart("image");
+			String path = req.getServletContext().getRealPath("/images");
+			String fileName = part.getSubmittedFileName();
+			if (!Files.exists(Path.of(path))) {
+				Files.createDirectory(Path.of(path));
+			}
+			part.write(path + "/" + fileName);
+			tivi.setImage(fileName);
 
 			if (!tiviService.createTivi(tivi)) {
 				resp.getWriter().println("<script type=\"text/javascript\">");
@@ -166,6 +182,7 @@ public class AddTiviServlet extends HttpServlet {
 				return;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 
 //			req.setAttribute("message", "Thêm mới sản phẩm thành công");
 //			req.getRequestDispatcher("/WEB-INF/view/add.jsp").forward(req, resp);
@@ -177,6 +194,7 @@ public class AddTiviServlet extends HttpServlet {
 
 		resp.getWriter().println("<script type=\"text/javascript\">");
 		resp.getWriter().println("alert('Thêm mới sản phẩm thành công');");
+		resp.getWriter().println("location.replace('/PH18485_ASM/tivi/add');");
 		resp.getWriter().println("</script>");
 	}
 }

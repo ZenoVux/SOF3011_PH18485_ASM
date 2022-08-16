@@ -19,9 +19,8 @@
 			<div class="mb-2 d-grid gap-2">
 				<button type="submit" class="btn btn-primary">Đăng nhập</button>
 			</div>
-			<div class="mb-4 text-center"><a
-					href="/PH18485_ASM/register">Tạo tài khoản</a>
-				 / <a href="/PH18485_ASM/register">Quên mật khẩu</a>
+			<div class="mb-4 text-center">
+				Bạn chưa có tài khoản? <a href="/PH18485_ASM/register">Đăng ký</a>
 			</div>
 		</form>
 	</div>
