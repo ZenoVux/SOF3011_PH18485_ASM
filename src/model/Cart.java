@@ -1,6 +1,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,6 +35,8 @@ public class Cart {
 	private List<CartDetail> cartDetails;
 	@Column
 	private BigDecimal totalMoney;
+	@Column()
+	private Timestamp completedTime;
 	@Column(nullable = false)
 	private CartStatus status;
 	
@@ -91,6 +94,14 @@ public class Cart {
 
 	public void setTotalMoney(BigDecimal totalMoney) {
 		this.totalMoney = totalMoney;
+	}
+
+	public Timestamp getCompletedTime() {
+		return completedTime;
+	}
+
+	public void setCompletedTime(Timestamp completedTime) {
+		this.completedTime = completedTime;
 	}
 
 	public CartStatus getStatus() {

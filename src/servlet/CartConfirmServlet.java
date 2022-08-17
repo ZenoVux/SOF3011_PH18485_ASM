@@ -105,9 +105,7 @@ public class CartConfirmServlet extends HttpServlet {
 		resp.getWriter().println("alert('Xác nhận đơn hàng thành công');");
 		resp.getWriter().println("</script>");
 
-		req.setAttribute("cart", cart);
-		req.setAttribute("cartDetails", cartDetails);
-		req.getRequestDispatcher("/WEB-INF/view/cart-detail.jsp").forward(req, resp);
+		resp.sendRedirect("/PH18485_ASM/cart/check-out?id=" + cart.getId());
 	}
 	
 }

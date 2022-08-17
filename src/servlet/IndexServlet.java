@@ -56,8 +56,8 @@ public class IndexServlet extends HttpServlet {
 			}
 		}
 
-		int count = tiviService.getCountByFilter(name, numPriceMin, numPriceMax, false);
-		List<Tivi> listTivi = tiviService.getByFilter(name, quantity, numPriceMin, numPriceMax, false, size * (currPage - 1),
+		int count = tiviService.getCountByFilterIndex(name, numPriceMin, numPriceMax, false);
+		List<Tivi> listTivi = tiviService.getByFilterIndex(name, quantity, numPriceMin, numPriceMax, false, size * (currPage - 1),
 					size);
 		int maxPage = count % size == 0 ? count / size : (count / size) + 1;
 		if (currPage <= 0 || currPage > maxPage) {

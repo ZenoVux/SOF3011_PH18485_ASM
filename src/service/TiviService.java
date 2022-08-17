@@ -33,6 +33,14 @@ public class TiviService {
 		return tiviRepo.getByFilter(name, quantity, priceMin, priceMax, deleted, first, max);
 	}
 	
+	public int getCountByFilterIndex(String name, BigDecimal priceMin, BigDecimal priceMax, Boolean deleted) {
+		return tiviRepo.getCountByFilterIndex(name, priceMin, priceMax, deleted);
+	}
+
+	public List<Tivi> getByFilterIndex(String name, String quantity, BigDecimal priceMin, BigDecimal priceMax, Boolean deleted, int first, int max) {
+		return tiviRepo.getByFilterIndex(name, quantity, priceMin, priceMax, deleted, first, max);
+	}
+	
 	public List<Tivi> searchByPage(int page, int limit) {
 		return tiviRepo.searchByPage(page * limit, limit);
 	}

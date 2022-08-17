@@ -12,6 +12,22 @@
 	</c:forEach>
 	<c:param name="page" value="" />
 </c:url>
+<div class="card my-2">
+	<div class="card-body">
+		<form action="/PH18485_ASM/index" method="GET">
+			<div class="row">
+				<div class="col-sm-3 my-1">
+					<label class="visually-hidden">Name</label> <input type="text"
+						class="form-control" name="name"
+						placeholder="Tên sản phẩm cần tìm">
+				</div>
+				<div class="col-auto my-1">
+					<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
 <div class="row">
 	<div id="message"></div>
 	<c:forEach items="${listTivi}" var="tivi">
@@ -23,20 +39,26 @@
 					<a class="link-dark" href="#">aaaaaaaaaaaaaaaaaaaaaa ${i}</a> <br>
 				 -->
 				<img class="card-img-top"
-					src="<c:url value="/images/${tivi.image}"/>"
-					alt="" width="400px" height="250px">
- 				<div class="card-footer">
+					src="<c:url value="/images/${tivi.image}"/>" alt="" width="400px"
+					height="250px">
+				<div class="card-footer">
 					<h5 class="card-title">${tivi.name}</h5>
 					<p class="card-text">
 						<fmt:setLocale value="vi_VN" />
 						<fmt:formatNumber type="currency" value="${tivi.price}" />
 					</p>
-					<a href="/PH18485_ASM/tivi?id=${tivi.id}" class="btn btn-primary"
-						style="width: 70%">Xem chi tiết</a>
-					<button type="button" onclick="addToCart(${tivi.id})"
-						class="btn btn-success" style="width: 20%">
-						<i class="fa-solid fa-cart-plus"></i>
-					</button>
+					<div class="row">
+						<div class="col-md-9 my-1">
+							<a href="/PH18485_ASM/tivi?id=${tivi.id}" class="btn btn-primary" style="width: 100%">Xem
+								chi tiết</a>
+						</div>
+						<div class="col-md-3 my-1">
+							<button type="button" onclick="addToCart(${tivi.id})"
+								class="btn btn-success" style="width: 100%">
+								<i class="fa-solid fa-cart-plus"></i>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

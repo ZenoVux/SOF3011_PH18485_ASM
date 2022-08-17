@@ -1,5 +1,5 @@
 package model;
 
 public enum CartStatus {
-	WAITING, COMFIRMED, COMPLETED
+	WAITING, COMFIRMED, COMPLETED, CANCEL
 }

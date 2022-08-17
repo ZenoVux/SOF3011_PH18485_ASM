@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,19 +10,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Cart;
-import model.CartDetail;
 import model.CartStatus;
-import service.CartDetailService;
 import service.CartService;
 
-@WebServlet("/cart/history")
-public class CartHistoryServlet extends HttpServlet {
+@WebServlet("/cart/cancel")
+public class CartCancelServlet extends HttpServlet {
 	
 	private final CartService cartService = new CartService();
-	private final CartDetailService cartDetailService = new CartDetailService();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.sendRedirect("/PH18485_ASM/index");
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html;charset=UTF-8");
 		HttpSession session = req.getSession();
 		int accountId = (Integer) session.getAttribute("id");
@@ -55,23 +55,24 @@ public class CartHistoryServlet extends HttpServlet {
 				resp.getWriter().println("</script>");
 				return;
 			}
-			if (cart.getStatus() == CartStatus.WAITING) {
+			if (cart.getStatus() != CartStatus.COMFIRMED) {
 				resp.getWriter().println("<script type=\"text/javascript\">");
 				resp.getWriter().println("alert('Đã có lỗi xảy ra vui lòng thử lại');");
 				resp.getWriter().println("location.replace('/PH18485_ASM/index');");
 				resp.getWriter().println("</script>");
 				return;
 			}
-			List<CartDetail> cartDetails = cartDetailService.getByCartId(cart.getId());
-			req.setAttribute("cart", cart);
-			req.setAttribute("cartDetails", cartDetails);
-			req.getRequestDispatcher("/WEB-INF/view/cart-detail.jsp").forward(req, resp);
-		} else {
-			List<Cart> carts = cartService.getAllByAccountId(accountId);
-			req.setAttribute("carts", carts);
-			req.setAttribute("size", carts.size());
-			req.getRequestDispatcher("/WEB-INF/view/cart-history.jsp").forward(req, resp);
+			cart.setStatus(CartStatus.CANCEL);
+			if (!cartService.update(cart)) {
+				resp.getWriter().println("<script type=\"text/javascript\">");
+				resp.getWriter().println("alert('Hủy đơn hàng thất bại');");
+				resp.getWriter().println("location.replace('/PH18485_ASM/cart/history');");
+				resp.getWriter().println("</script>");
+			}
+			resp.getWriter().println("<script type=\"text/javascript\">");
+			resp.getWriter().println("alert('Hủy đơn hàng thành công');");
+			resp.getWriter().println("location.replace('/PH18485_ASM/cart/history');");
+			resp.getWriter().println("</script>");
 		}
 	}
-	
 }

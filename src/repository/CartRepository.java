@@ -87,12 +87,13 @@ public class CartRepository {
 		List<Cart> carts = new ArrayList<>();
 		SessionFactory factory = HibernateUtil.getFACTORY();
 		Session session = factory.openSession();
-		Query<Cart> query = session.createQuery(
-				"FROM Cart c WHERE c.account.id = :accountId AND c.status = :status1 OR c.account.id = :accountId AND c.status = :status2",
-				Cart.class);
+		Query<Cart> query = session.createQuery("FROM Cart c WHERE c.account.id = :accountId AND c.status = :status1"
+				+ " OR c.account.id = :accountId AND c.status = :status2"
+				+ " OR c.account.id = :accountId AND c.status = :status3", Cart.class);
 		query.setParameter("accountId", accountId);
 		query.setParameter("status1", CartStatus.COMFIRMED);
 		query.setParameter("status2", CartStatus.COMPLETED);
+		query.setParameter("status3", CartStatus.CANCEL);
 		carts = query.getResultList();
 
 		session.close();

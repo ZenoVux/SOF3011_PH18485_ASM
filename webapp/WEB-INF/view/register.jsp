@@ -20,7 +20,7 @@
 			</div>
 			<div class="mb-2">
 				<label class="form-label">Mật khẩu:</label> <input name="password"
-					type="text" class="form-control">
+					type="password" class="form-control">
 				<div class="invalid-feedback">Vui lòng nhập mật khẩu.</div>
 			</div>
 			<div class="mb-2">

@@ -62,10 +62,10 @@
 				<td>${tivi.brand.name}</td>
 				<td>${tivi.createUser.fullname}</td>
 				<td><fmt:formatDate value="${tivi.createdDate}"
-						pattern="hh:mm dd/MM/yy" /></td>
+						pattern="HH:mm dd/MM/yy" /></td>
 				<td>${tivi.lastModifiedUser.fullname}</td>
 				<td><fmt:formatDate value="${tivi.lastModifiedDate}"
-						pattern="hh:mm dd/MM/yy" /></td>
+						pattern="HH:mm dd/MM/yy" /></td>
 				<td><c:if test="${tivi.deleted}">Rồi</c:if> <c:if
 						test="${!tivi.deleted}">Chưa</c:if></td>
 				<c:if test="${sessionScope.username != null}">
